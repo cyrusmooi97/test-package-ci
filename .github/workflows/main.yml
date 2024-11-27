@@ -31,14 +31,14 @@ jobs:
       
     # Step 4: Pack the NuGet package
     - name: Pack NuGet package
-      run: dotnet pack TestLibrary/TestLibrary/TestLibrary.csproj --configuration Release --include-symbols --output ./output
+      run: dotnet pack TestLibrary/TestLibrary/TestLibrary.csproj --configuration Release --include-symbols --output .\output
 
     # Step 5: Push the NuGet package to GitHub Packages
     - name: Publish to GitHub Packages
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
         
-      run:  dotnet nuget push ./output/*.nupkg \
+      run:  dotnet nuget push .\output\*.nupkg \
           --source "https://nuget.pkg.github.com/${{ secrets.OWNER }}/index.json" \
           --api-key $NUGET_AUTH_TOKEN
           

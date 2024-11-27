@@ -37,7 +37,7 @@ jobs:
     - name: Publish to GitHub Packages
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
-
+        
       run:  dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg \
-          --source "https://nuget.pkg.github.com/myusername/index.json" \
+          --source "https://nuget.pkg.github.com/${{ secrets.OWNER }}/index.json" \
           --api-key $NUGET_AUTH_TOKEN

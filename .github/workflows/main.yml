@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main # Trigger only on pushes to the main branch
+env:
+  PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}\out
 
 jobs:
   publish:
@@ -29,7 +31,7 @@ jobs:
 
     # Step 4: Pack the NuGet package
     - name: Pack NuGet package
-      run: dotnet pack TestLibrary/TestLibrary/TestLibrary.csproj --configuration Release --no-build --output ./artifacts
+      run: dotnet pack TestLibrary/TestLibrary/TestLibrary.csproj --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
     # Step 5: Push the NuGet package to GitHub Packages
     - name: Publish to GitHub Packages

@@ -38,7 +38,5 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
         
-      run:  dotnet nuget push .\output\*.nupkg \
-          --source "https://nuget.pkg.github.com/${{ secrets.OWNER }}/index.json" \
-          --api-key $NUGET_AUTH_TOKEN
+      run: dotnet nuget push .\output\*.nupkg --source "https://nuget.pkg.github.com/${{ secrets.OWNER }}/index.json" --api-key $NUGET_AUTH_TOKEN
           

@@ -22,14 +22,14 @@ jobs:
 
     # Step 3: Install dependencies and build the project
     - name: Restore dependencies
-      run: dotnet restore src/TestLibrary
+      run: dotnet restore TestLibrary/TestLibrary.csproj
 
     - name: Build project
-      run: dotnet build src/TestLibrary --configuration Release --no-restore
+      run: dotnet build TestLibrary/TestLibrary.csproj
 
     # Step 4: Pack the NuGet package
     - name: Pack NuGet package
-      run: dotnet pack src/TestLibrary --configuration Release --no-build --output ./artifacts
+      run: dotnet pack TestLibrary/TestLibrary.csproj --configuration Release --no-build --output ./artifacts
 
     # Step 5: Push the NuGet package to GitHub Packages
     - name: Publish to GitHub Packages

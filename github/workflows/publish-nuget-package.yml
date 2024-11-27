@@ -1,0 +1,41 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches:
+      - develop # Trigger only on pushes to the main branch
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Setup .NET
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.0' # Adjust to your project's SDK version
+
+    # Step 3: Install dependencies and build the project
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build project
+      run: dotnet build --configuration Release --no-restore
+
+    # Step 4: Pack the NuGet package
+    - name: Pack NuGet package
+      run: dotnet pack --configuration Release --no-build --output ./artifacts
+
+    # Step 5: Push the NuGet package to GitHub Packages
+    - name: Publish to GitHub Packages
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
+
+      run: dotnet nuget push ./artifacts/*.nupkg \
+            --source "https://nuget.pkg.github.com/${{ secret.OWNER }}/index.json" \
+            --api-key $NUGET_AUTH_TOKEN

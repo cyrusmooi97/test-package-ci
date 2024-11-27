@@ -29,6 +29,10 @@ jobs:
     - name: Build project
       run: dotnet build TestLibrary/TestLibrary/TestLibrary.csproj
 
+    - name: 'Get Version'
+      id: version
+      uses: battila7/get-version-action@v2
+      
     # Step 4: Pack the NuGet package
     - name: Pack NuGet package
       run: dotnet pack TestLibrary/TestLibrary/TestLibrary.csproj --no-restore --no-build --configuration Release --include-symbols -p:PackageVersion=${{ steps.version.outputs.version-without-v }} --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
